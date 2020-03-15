@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-bootstrap/lib/Navbar';
  
 const EmpPosts = ({posts, loading}) =>{
     if (loading) {
@@ -6,11 +7,15 @@ const EmpPosts = ({posts, loading}) =>{
             <h2>Loading...</h2>
         )
     }
-    return(
-        <tbody>
+
+    
+    return(<div className="table table-bordered table-responsive-md table-striped text-center">
+        <tbody >
             {posts.map(employee => (
                 // <li key={post.id} className='list-group-item'>{post.first_name}</li>
-                <tr key={employee.id}>
+             <a>
+                <tr key={employee.id} >
+                  
                     {/* contenteditable="true" */}
                     <td className="pt-3-half" >{employee.employee_id}</td>
                     <td className="pt-3-half" >{employee.first_name}</td>
@@ -24,9 +29,9 @@ const EmpPosts = ({posts, loading}) =>{
                         <span className="table-remove"><button type="button"
                             className="btn btn-danger btn-rounded btn-sm my-0">Remove</button></span>
                     </td>
-                </tr>
+                </tr></a>
             ))}
-        </tbody>
+        </tbody></div> 
     )
 }
 export default EmpPosts;

@@ -6,6 +6,7 @@ import HelpView from './sections/HelpView';
 
 
 
+
 class Viewhelp extends React.Component{
 
     constructor(props){
@@ -13,6 +14,7 @@ class Viewhelp extends React.Component{
         this.state = {
             redirect:false,
             }
+            
             
         }
     
@@ -35,8 +37,13 @@ class Viewhelp extends React.Component{
         return(
             <div class="mb-0">
                 <HelpHeader/> 
-
+                <div class="card my-0 py-5 px-md-5 z-depth-1">
+                    <div className="card-header">
                 <HelpView/>
+            </div>
+                </div>
+            
+                
             </div>
         )
     }

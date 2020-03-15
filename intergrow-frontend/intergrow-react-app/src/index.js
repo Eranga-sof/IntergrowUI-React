@@ -15,6 +15,8 @@ import EmployeeView from './component/employee/employee';
 import EmployeeList from './component/employee/employeeList';
 import goals from './component/goals/goals';
 import Viewhelp from './component/helps/viewhelp';
+import responseList from './component/helps/ResponseList'
+
 import NotFoundPage from './component/notfoundpage/404notfound';
 import ViewTeam from './component/Team/team';
 import './css/index.css';
@@ -37,6 +39,7 @@ const routing = (
                 <Route path ='/employeelist' component = {EmployeeList}/>
                 <Route path ='/goals' component = {goals}/>
                 <Route path = '/help' component = {Viewhelp}/>
+                <Route path = '/response/:id' component = {responseList} />
                 <Route path = '/register' component = {RegisterUser}/>
                 <Route path = '/goal/:id' component = {GoalProgress}/>
                 <Route path = '/teams' component = {ViewTeam}/>
