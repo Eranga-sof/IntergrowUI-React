@@ -13,7 +13,16 @@ class HeaderGoalProgress extends React.Component{
                     <p>
                         <strong>Metrics of a Goal</strong>
                     </p>
-                </div>  
+                </div> 
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb indigo lighten-4">
+                    <li class="breadcrumb-item"><a class="black-text" href="/home">Dashboard</a><i class="fas fa-caret-right mx-2"
+                        aria-hidden="true"></i></li>
+                    <li class="breadcrumb-item"><a class="black-text" href="/goals">Goal</a><i class="fas fa-caret-right mx-2"
+                        aria-hidden="true"></i></li>
+                    <li class="breadcrumb-item active">Goal Progress</li>
+                    </ol>
+                </nav> 
             </section>
         )
     }

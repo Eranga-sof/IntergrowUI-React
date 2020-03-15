@@ -2,7 +2,7 @@ import Axios from 'axios';
 import { MDBContainer } from 'mdbreact';
 import React from 'react';
 import { Badge, ToastHeader, Input } from 'reactstrap';
-import { COURSE_API_URL } from '../../../../constants/utill';
+import { COURSE_API_URL, BG_COLOR } from '../../../../constants/utill';
 import PaginationCust from '../../../../constants/Pagination';
 
 class CreateEmployeeAllocation extends React.Component{
@@ -95,34 +95,31 @@ class CreateEmployeeAllocation extends React.Component{
         
         return(
             <section>
-                {/* <MDBContainer style={{
-                    display: "flex",
-                    alignItems: "right"
-                    }}>
-                    <div class="md-form active-purple active-purple-2 mb-3"  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "right",
-                    backgroundColor:"white",
-                    }}>
-                      <Input class="form-control" type="text" placeholder="Search" id="anythingSearch" aria-label="Search"/>
-                    </div>
-                </MDBContainer>
-                 */}
                 <MDBContainer className="card p-4 mt-4" style={{
                     display: "flex",
-                    justifyContent: "center",
+                    // justifyContent: "center",
                     alignItems: "center",
-                    backgroundColor:"rgb(175, 200, 209)"
+                    backgroundColor:"rgb(175, 200, 209)",
+                    height:'250px'
+                    
                     }}>
 
                     
 
                     {viewTeam}
-                    <PaginationCust  postsPerPage={this.state.postsPerPage} totalPosts={this.state.teams.length} paginate={paginate}/>
+                    {/* <PaginationCust  postsPerPage={this.state.postsPerPage} totalPosts={this.state.teams.length} paginate={paginate}/> */}
 
                     
                 </MDBContainer>
+
+                <div className='mt-2 pt-2' color={BG_COLOR} style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    // backgroundColor:"rgb(175, 200, 209)"
+                    }}>
+                    <PaginationCust  postsPerPage={this.state.postsPerPage} totalPosts={this.state.teams.length} paginate={paginate}/>
+                </div>  
                 
             </section>  
         )

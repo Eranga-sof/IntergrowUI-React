@@ -1,10 +1,9 @@
 import React from 'react';
 import { Redirect } from 'react-router';
-import Header from './section/HeaderEmpAllocation';
-import ViewTeamAllocation from './section/ViewTeamAllocation';
-import CreateEmployeeAllocation from './section/CreateEmployeeAllocation';
+import IndiGoalProgressView from './sections/IndiGoalProgressView';
+import IndProgHeader from './sections/IndProgHeader';
 
-class EmployeeAllocation extends React.Component{    
+class IndividualGoalProgress extends React.Component{    
     constructor(props){
         super(props);
         this.state = {
@@ -14,7 +13,8 @@ class EmployeeAllocation extends React.Component{
     componentWillMount()
     {
         if(sessionStorage.getItem('userData')){
-            console.log('call user feed');
+            // console.log('call user feed');
+            this.setState({redirect:false})
           }
           else{
             this.setState({redirect:true})
@@ -26,14 +26,11 @@ class EmployeeAllocation extends React.Component{
             return(<Redirect to={'/login'}/>)
         }
         return(
-            <div className=''>    
-                <Header/>
-
-                <ViewTeamAllocation/>
-
-                <CreateEmployeeAllocation/>
+            <div className=''>  
+                <IndProgHeader/>
+                <IndiGoalProgressView idx={this.props.match.params.id}/>
             </div>
         );
     }
 }
-export default EmployeeAllocation;
+export default IndividualGoalProgress;

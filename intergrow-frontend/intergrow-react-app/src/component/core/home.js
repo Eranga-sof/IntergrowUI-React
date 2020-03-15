@@ -1,24 +1,19 @@
-import axios from 'axios';
-import { MDBBtn, MDBCard, MDBContainer, MDBIcon } from 'mdbreact';
+import { default as axios, default as Axios } from 'axios';
+import { MDBContainer } from 'mdbreact';
 import React from 'react';
-import EllipsisText from 'react-ellipsis-text';
+import '../../css/home.css';
 //response for carousel **** 
 import "react-multi-carousel/lib/styles.css";
-import { Link, Redirect } from "react-router-dom";
-import { Label, Progress } from 'reactstrap';
-import '../../css/home.css';
-
-// import '../../css/index.css';
-import Axios from 'axios';
+import { Redirect } from "react-router-dom";
 // api
 import { COURSE_API_URL } from '../../constants/utill';
-
-import AdminGoalsCard from './section/AdminGoalsCard';
-import AdminTitleCard from './section/AdminTitleCard';
-import AdminTeamCard from './section/AdminTeamCard';
 import AdminEmmployeeCard from './section/AdminEmployeeCard';
+import AdminGoalsCard from './section/AdminGoalsCard';
 import AdminOverallProgressCard from './section/AdminOverallProgressCard';
+import AdminTitleCard from './section/AdminTitleCard';
 import TeamPost from './section/teamActivity.js/teamPost';
+
+
 
 
 
@@ -108,7 +103,7 @@ class Home extends React.Component {
         <React.Fragment>
         <div> 
             <AdminTitleCard/>
-            <div class=" z-depth-1">
+            {/* <div class=" z-depth-1">
               <section class="dark-grey-text">
                 <div class="row pr-lg-5">
                   <div class="col-md-7 mb-4">
@@ -125,12 +120,11 @@ class Home extends React.Component {
                         to obtain data to relate intergrow activity to real user story and rest of other tracking data.
                       </p>
 
-                      {/* <button type="button" class="btn btn-orange btn-rounded mx-0">Download</button> */}
                     </div>
                   </div>
                 </div>
               </section>
-              </div>
+              </div> */}
             
             <MDBContainer xl="1" className='w-100'>
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Modal, ModalHeader, ModalBody, FormGroup, Input, InputGroupText, ModalFooter } from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, FormGroup, Input, InputGroupText, ModalFooter, InputGroupAddon } from 'reactstrap';
 import Axios from 'axios';
 import { COURSE_API_URL } from '../../../../constants/utill';
 
@@ -11,16 +11,29 @@ class AllocationTeamView extends React.Component{
             team:[],
             leader:[],
             allocations:[],
+            employees:[],
 
-            newEmpAllocation:[],
+            newEmpAllocation:{
+                team_id:this.props.idx,
+                member_id:'',
+                start_date:'',
+                end_date:'',
+            },
             createModal:false,
         }
     }
     componentWillMount(){
         this.getTeam();
         this.getMember();
+        this.getEmployees();
     }
-
+    getEmployees(){
+        Axios.get(COURSE_API_URL + 'employees/').then((response) =>{
+            this.setState({
+                employees:response.data,
+            })
+        })
+    }
     getTeam(){
         Axios.get(COURSE_API_URL + 'team/' + this.props.idx).then((response) => {
             // console.log(response.data);
@@ -43,10 +56,21 @@ class AllocationTeamView extends React.Component{
             })
         })
     }
-
-    // addMember(){
-    //     Axios.post(COURSE_API_URL + 'team_employee_allocation/')
-    // }
+    createMember(){
+        console.log(this.state.newEmpAllocation);
+        if(this.state.newEmpAllocation.member_id != '' && this.state.newEmpAllocation.team_id != ''
+        && this.state.newEmpAllocation.start_date != '' && this.state.newEmpAllocation.end_date != ''){
+            Axios.post(COURSE_API_URL + 'team_employee_allocation/post/', this.state.newEmpAllocation).then((response)=>{
+                console.log(response.data);
+                this.setState({
+                    createModal:false,
+                })
+            })
+        }else{
+            console.log("empty")
+        }
+            
+    }
 
     toggle(){
         this.setState({
@@ -57,17 +81,20 @@ class AllocationTeamView extends React.Component{
         this.setState({
             createModal:false,
         })
-    }
-    
+    }   
 
     render(){
         return(
             <div class=" my-3 py-3 px-md-5 ">
-                <div className="card card-header z-depth-3" color="white">
-        <span><h2><strong>Team : {this.state.team.team_name}</strong>
-                <span className="small text-muted float-right">
-                    <Button color="primary" onClick={this.toggle.bind(this)}><i className="fas fa-plus pr-1"></i></Button></span>
-                </h2></span>
+                <div className="card z-depth-3 text-uppercase pl-2 pt-2" color="white">
+                    <span><h3>
+                    <span className="small">                    
+                     Team : <strong className='text-primary zoom'>{this.state.team.team_name} 
+                     <Button color="primary" className="float-right btn-sm" onClick={this.toggle.bind(this)}><i className="fas fa-plus p-1"></i></Button>
+                     </strong>
+                     </span>
+                
+                </h3></span>
                 </div>
                 <section class="card text-lg-left dark-grey-text my-2 pl-3">  
                     <div class="media d-block d-md-flex mt-3">                        
@@ -83,7 +110,7 @@ class AllocationTeamView extends React.Component{
                 {
                     this.state.allocations.map((alloc) => {
                         return(
-                            <section class="card text-lg-left dark-grey-text my-2 pl-3 zoom">  
+                            <section className="card text-lg-left dark-grey-text my-2 pl-3 zoom">  
                                 <div class="media d-block d-md-flex mt-3">                        
                                     <img class="card-img-64 rounded z-depth-1 d-flex mb-4"
                                     src="https://mdbootstrap.com/img/Photos/Avatars/img (20).jpg" alt="Generic placeholder image"/>
@@ -100,7 +127,8 @@ class AllocationTeamView extends React.Component{
                                             </div>
                                         </div>  
                                         <span className="small text-muted float-right pr-2">
-                                            <Button color="warning"><i className="fas fa-edit pr-1 zoom"></i></Button>
+                                            <Button color="warning" className={'btn-sm'}><i className="fas fa-edit p-1 zoom"></i></Button>
+                                            <Button color="danger" className={'btn-sm'}><i className="fas fa-trash-alt p1-1 zoom"></i></Button>
                                             </span>
                                     </div>
                                 </div>                    
@@ -108,23 +136,75 @@ class AllocationTeamView extends React.Component{
                         )
                     })
                 }
+
+                
                 <Modal isOpen={this.state.createModal} toggle={this.toggle.bind(this)}>
                             <ModalHeader toggle={this.toggleClose.bind(this)} >Add member</ModalHeader>
                             <ModalBody>
-                                <FormGroup addonType="prepend" >
-                                    <InputGroupText><i className="fas fa-pen mr-2" ></i></InputGroupText>
-                                    <Input placeholder='Progress Description'                                    
-                                    />
+                            <FormGroup>
+                                    <InputGroupAddon addonType="prepend">
+                                    <InputGroupText><i className="fas fa-user mr-2" ></i></InputGroupText>
+                                    <Input placeholder='Emp id' type='select'
+                                        value={this.state.member_id}
+                                        onChange = {(e)=>{
+                                            let {newEmpAllocation} = this.state;
+                                            newEmpAllocation.member_id = e.target.value;
+                                            this.setState({newEmpAllocation});
+                                        }}
+                                    >
+                                        <option>{'<<Employee>>'}</option>
+                                        {
+                                            this.state.employees.map((emp)=>{
+                                                return(
+                                                    <option  className='force-overflow' key={emp.id} value={emp.id}> {emp.first_name + ':' + emp.employee_id} </option>
+                                                )
+                                            })
+                                        }
+
+                                    </Input>
+{/*                                     
+                                    value = {this.state.member_id}
+                                    onChange = {(e)=>{
+                                        let {newEmpAllocation} = this.state;
+                                        newEmpAllocation.member_id = e.target.value;
+                                        this.setState({newEmpAllocation});
+                                    }}
+                                    
+                                    > */}
+                                    </InputGroupAddon>
                                 </FormGroup>
-                                <FormGroup addonType="prepend">
+                            <FormGroup>
+                                    <InputGroupAddon addonType="prepend">
                                     <InputGroupText><i className="fas fa-calendar-alt mr-2" ></i></InputGroupText>
-                                    <Input type='date'
+                                    <Input type='date' placeholder='start date'
+                                    value = {this.state.start_date}
+                                    onChange = {(e)=>{
+                                        let {newEmpAllocation} = this.state;
+                                        newEmpAllocation.start_date = e.target.value;
+                                        this.setState({newEmpAllocation});
+                                    }}
+                                    
                                     />
+                                    </InputGroupAddon>
+                                </FormGroup>
+                                <FormGroup>
+                                    <InputGroupAddon addonType="prepend">
+                                    <InputGroupText><i className="fas fa-calendar-alt mr-2" ></i></InputGroupText>
+                                    <Input type='date' placeholder='Emp id'
+                                    value = {this.state.end_date}
+                                    onChange = {(e)=>{
+                                        let {newEmpAllocation} = this.state;
+                                        newEmpAllocation.end_date = e.target.value;
+                                        this.setState({newEmpAllocation});
+                                    }}
+                                    
+                                    />
+                                    </InputGroupAddon>
                                 </FormGroup>
                             </ModalBody>
                             <ModalFooter>
-                                <Button color="primary" onClick={this.toggleClose.bind(this)}>Add</Button>
-                                <Button color="danger" onClick={this.toggleClose.bind(this)}>Cancel</Button>
+                                <Button color="danger" className={'btn-sm'} onClick={this.toggleClose.bind(this)}>Cancel</Button>
+                                <Button color="primary" className={'btn-sm'} onClick={this.createMember.bind(this)}>Add</Button>
                             </ModalFooter>
                         </Modal>  
                 

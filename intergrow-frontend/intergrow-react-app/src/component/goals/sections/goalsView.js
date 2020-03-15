@@ -1,9 +1,9 @@
 import Axios from 'axios';
 import { MDBContainer } from 'mdbreact';
 import React from 'react';
-import { ToastHeader } from 'reactstrap';
+import { ToastHeader, Alert } from 'reactstrap';
 import PaginationCust from '../../../constants/Pagination';
-import { COURSE_API_URL } from '../../../constants/utill';
+import { COURSE_API_URL, BG_COLOR } from '../../../constants/utill';
 
 
 
@@ -51,12 +51,14 @@ class GoalsView extends React.Component{
         let viewGoals = currentPosts.map((goal) =>{
             return(
 
-                <MDBContainer className='card mb-2  #90caf9 blue lighten-3' key={goal.id}>
+                <MDBContainer className={goal.is_inprogress === true ? '#ffff00 yellow accent-2 card mb-2' : '#76ff03 light-green accent-3 card mb-2'} key={goal.id}>
                     <a href={'/goal/' + goal.id} >   
                     <ToastHeader>
                     {/* <ChildComponent tmId={1}/>    */}
                     &nbsp; {goal.goal_discription}&nbsp; 
                     <small>{goal.start_date}</small> &nbsp;
+                    {/* {console.log(goal.is_inprogress)} */}
+                    
                     {/* <Badge color="warning" className='end'>
                         Edit
                     </Badge> */}
@@ -67,17 +69,34 @@ class GoalsView extends React.Component{
         })
         return(
             <section>
+                
                 <MDBContainer MDBContainer className="card p-4 mt-4" style={{
                     display: "flex",
                     // justifyContent: "left",
                     alignItems: "center",
-                    backgroundColor:"rgb(175, 200, 209)"
+                    backgroundColor:"rgb(175, 200, 209)",
+                    height:'350px'
                     }}>
+                        
                    
                     {viewGoals}
-                    <PaginationCust postsPerPage={this.state.postsPerPage} totalPosts={this.state.goals.length} paginate={paginate}/>
+                    {/* <PaginationCust postsPerPage={this.state.postsPerPage} totalPosts={this.state.goals.length} paginate={paginate}/> */}
                 </MDBContainer>
             {/* </div> */}
+            <div className='mt-2 pt-2' color={BG_COLOR} style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    // backgroundColor:"rgb(175, 200, 209)"
+                    }}>
+                    {
+                        currentPosts.length > 0 ? <PaginationCust postsPerPage={this.state.postsPerPage} totalPosts={this.state.goals.length} paginate={paginate}/>
+
+                        : <Alert color="danger">
+                                Nothing Goal available!
+                            </Alert>
+                    }                      
+            </div> 
         </section>      
         )
     }
